@@ -327,7 +327,7 @@ footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}
         </div>
         <div class="hero-stats fi fi-d3">
           <div class="stat">
-            <div class="stat-val">1.5yr</div>
+            <div class="stat-val" id="auto-total-exp">1.5yr</div>
             <div class="stat-lbl">Analytics experience</div>
           </div>
           <div class="stat">
@@ -376,11 +376,11 @@ footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}
       </div>
 
       <div class="bento-card bento-stat-a" style="background:rgba(124,92,252,.06);border-color:rgba(124,92,252,.2)">
-        <div class="bento-stat-num">6mo</div>
-        <div class="bento-stat-desc">Anti-Fraud Analyst<br>at 4bill.io — real-time payment monitoring</div>
+        <div class="bento-stat-num" id="auto-4bill-duration">6mo</div>
+        <div class="bento-stat-desc" id="auto-4bill-desc">Anti-Fraud Analyst<br>at 4bill.io — real-time payment monitoring</div>
       </div>
       <div class="bento-card bento-stat-b" style="background:rgba(5,245,195,.05);border-color:rgba(5,245,195,.15)">
-        <div class="bento-stat-num" style="color:var(--neon)">1yr</div>
+        <div class="bento-stat-num" id="auto-career-duration" style="color:var(--neon)">1yr</div>
         <div class="bento-stat-desc">Freelance data analytics — SQL &amp; Python projects across global datasets</div>
       </div>
     </div>
@@ -549,7 +549,7 @@ footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}
             <span class="exp-badge current">● Current</span>
           </div>
           <div class="exp-role">Anti-Fraud Analyst</div>
-          <div class="exp-company">4bill.io · ~6 months analytics experience</div>
+          <div class="exp-company" id="auto-4bill-company">4bill.io · ~6 months analytics experience</div>
           <ul class="exp-list">
             <li>Monitor <b>real-time and historical payment transactions</b> to detect suspicious, fraudulent, or abusive activity across pay-in and payout flows.</li>
             <li>Analyze transaction patterns across <b>IP, device fingerprints, BINs, geolocation, and velocity</b> using SQL (Athena + PostgreSQL) and Python.</li>
@@ -565,7 +565,7 @@ footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}
             <span class="exp-badge prev">Freelance</span>
           </div>
           <div class="exp-role">Data Analyst</div>
-          <div class="exp-company">Independent Projects · ~3 months analytics experience</div>
+          <div class="exp-company" id="auto-freelance-company">Independent Projects · ~3 months analytics experience</div>
           <ul class="exp-list">
             <li><b>SQL project:</b> Global email engagement & account creation analysis — multi-country segmentation, aggregated metrics.</li>
             <li><b>Python project:</b> Multi-year global retail sales EDA — cleaned 3 datasets, geographic heatmaps, delivery delay analysis, seasonality.</li>
@@ -690,6 +690,79 @@ const expObserver = new IntersectionObserver(entries => {
 });
 
 function scrollTo(el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+
+// ─── Auto-calculate time-dependent values ───
+(function() {
+  const now = new Date();
+
+  // Key dates
+  const fourBillStart = new Date(2025, 8, 1);   // Sep 2025
+  const freelanceStart = new Date(2025, 1, 1);  // Feb 2025
+  const freelanceEnd = new Date(2025, 4, 1);    // May 2025
+
+  // Calculate months
+  function monthsBetween(start, end) {
+    return (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+  }
+
+  const fourBillMonths = monthsBetween(fourBillStart, now);
+  const freelanceMonths = monthsBetween(freelanceStart, freelanceEnd); // fixed: 3
+  const totalAnalyticsMonths = freelanceMonths + fourBillMonths;
+  const careerMonths = monthsBetween(freelanceStart, now); // from first analytics role
+
+  // Format duration: "6mo", "1yr", "1.5yr", "2yr", "2yr 3mo", etc.
+  function fmt(months) {
+    if (months < 12) return months + "mo";
+    const y = Math.floor(months / 12);
+    const m = months % 12;
+    if (m === 0) return y + "yr";
+    if (m === 6) return y + ".5yr";
+    if (m <= 3) return "~" + y + "yr";
+    if (m < 6) return "~" + y + ".5yr";
+    if (m <= 9) return "~" + y + ".5yr";
+    return "~" + (y + 1) + "yr";
+  }
+
+  // Format for text: "~8 months", "~1 year", "~1.5 years"
+  function fmtText(months) {
+    if (months < 12) return "~" + months + " months";
+    const y = Math.floor(months / 12);
+    const m = months % 12;
+    if (m === 0) return "~" + y + (y === 1 ? " year" : " years");
+    if (m === 6) return "~" + y + ".5 years";
+    if (m <= 3) return "~" + y + (y === 1 ? " year" : " years");
+    if (m < 6) return "~" + y + ".5 years";
+    if (m <= 9) return "~" + y + ".5 years";
+    return "~" + (y + 1) + (y + 1 === 1 ? " year" : " years");
+  }
+
+  // Update elements
+  var el;
+
+  // Hero stat: total analytics experience
+  el = document.getElementById("auto-total-exp");
+  if (el) el.textContent = fmt(totalAnalyticsMonths);
+
+  // Bento: 4bill.io duration
+  el = document.getElementById("auto-4bill-duration");
+  if (el) el.textContent = fmt(fourBillMonths);
+
+  // Bento: career duration (since first analytics role)
+  el = document.getElementById("auto-career-duration");
+  if (el) el.textContent = fmt(careerMonths);
+
+  // Bento: 4bill.io description
+  el = document.getElementById("auto-4bill-desc");
+  if (el) el.innerHTML = "Anti-Fraud Analyst<br>at 4bill.io — real-time payment monitoring";
+
+  // Exp company: 4bill.io
+  el = document.getElementById("auto-4bill-company");
+  if (el) el.textContent = "4bill.io · " + fmtText(fourBillMonths) + " analytics experience";
+
+  // Exp company: freelance (fixed)
+  el = document.getElementById("auto-freelance-company");
+  if (el) el.textContent = "Independent Projects · " + fmtText(freelanceMonths) + " analytics experience";
+})();
 </script>
 </body>
 </html>
