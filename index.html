@@ -308,7 +308,7 @@ footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}
         <h1 class="hero-name fi fi-d1">ARTEM<br><span class="last">ANTONEVYCH</span></h1>
         <p class="hero-role fi fi-d1">Anti-Fraud &amp; Data Analyst</p>
         <p class="hero-desc fi fi-d2">
-          I detect <b>fraud patterns in payment flows</b>, build scalable anti-fraud logic, and ship <b>real-time dashboards</b> that protect revenue without killing conversion.
+          I detect <b>fraud patterns in payment flows</b>, build scalable anti-fraud logic, and ship <b>real-time dashboards</b> that protect revenue without killing conversion. At 4bill.io I shipped a real-time fraud dashboard the whole team relies on — cutting response time <b>from several hours to under one hour</b>.
           SQL and Python are my primary tools — precision is the goal.
         </p>
         <div class="hero-btns fi fi-d2">
@@ -335,8 +335,8 @@ footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}
             <div class="stat-lbl">Core language</div>
           </div>
           <div class="stat">
-            <div class="stat-val">3×</div>
-            <div class="stat-lbl">Approvals ↑ (Sense Bank)</div>
+            <div class="stat-val">&lt;1h</div>
+            <div class="stat-lbl">Fraud response time (4bill.io)</div>
           </div>
           <div class="stat">
             <div class="stat-val">3+</div>
@@ -539,23 +539,21 @@ footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}
       <div class="exp-nav fi">
         <button class="exp-nav-item active" onclick="scrollTo(document.getElementById('exp-4bill'))">4bill.io</button>
         <button class="exp-nav-item" onclick="scrollTo(document.getElementById('exp-freelance'))">Freelance</button>
-        <button class="exp-nav-item" onclick="scrollTo(document.getElementById('exp-bank'))">Sense Bank</button>
       </div>
 
       <div class="exp-entries">
         <div class="exp-entry fi" id="exp-4bill">
           <div class="exp-period">
-            Sep 2025 — Present
-            <span class="exp-badge current">● Current</span>
+            Sep 2025 — Jun 2026
+            <span class="exp-badge prev">Most recent</span>
           </div>
           <div class="exp-role">Anti-Fraud Analyst</div>
           <div class="exp-company" id="auto-4bill-company">4bill.io · ~6 months analytics experience</div>
           <ul class="exp-list">
-            <li>Monitor <b>real-time and historical payment transactions</b> to detect suspicious, fraudulent, or abusive activity across pay-in and payout flows.</li>
-            <li>Analyze transaction patterns across <b>IP, device fingerprints, BINs, geolocation, and velocity</b> using SQL (Athena + PostgreSQL) and Python.</li>
-            <li>Track key metrics: <b>fraud rate, TPR, FPR, precision, recall</b> — full model performance lifecycle.</li>
-            <li>Develop and tune <b>anti-fraud rules and thresholds</b> to balance prevention with customer conversion.</li>
-            <li>Built an <b>interactive real-time dashboard</b> visualizing rule triggers and blacklist activity — enabling faster team-wide detection.</li>
+            <li>Built an <b>interactive real-time fraud dashboard</b> (hourly for the current day, daily review of the prior day, with alerts) <b>adopted by the entire team</b> — cut analysis time <b>~50%</b> and dropped fraud-response latency from several hours to <b>under 1 hour</b>.</li>
+            <li>Automated <b>daily multi-accounting detection and recurring reporting</b> with n8n + Python — eliminated <b>~1 hour of manual work per day (~5 hrs/week)</b>, freeing the team to focus on investigation.</li>
+            <li>Analyzed fraud patterns across <b>IP, device fingerprints, BINs, geolocation, and velocity</b> (SQL on Athena + PostgreSQL, and Python), tracking <b>TPR/FPR, precision and recall</b> — turning findings into new prevention rules and anti-fraud strategies.</li>
+            <li>Ran <b>cohort analysis to profile fraudster behaviour before activity</b>, building fraudster portraits that reduced false negatives and undetected fraud.</li>
           </ul>
         </div>
 
@@ -573,21 +571,6 @@ footer p{font-family:var(--font-mono);font-size:11px;color:var(--muted2)}
           </ul>
         </div>
 
-        <div class="exp-entry fi" id="exp-bank">
-          <div class="exp-period">
-            Mar 2018 — Jul 2018
-            <span class="exp-badge prev">Earlier career</span>
-          </div>
-          <div class="exp-role">E-call Specialist</div>
-          <div class="exp-company">Sense Bank · Non-analytics role</div>
-          <ul class="exp-list">
-            <li>Increased <b>credit card approvals by 3×</b> through verified eligibility review and compliance management.</li>
-          </ul>
-          <div class="exp-note">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-            Earlier experience in construction project management (Roof Point, 2020–2024) is not listed here — not relevant to analytics roles.
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -673,18 +656,18 @@ document.querySelectorAll(".fi").forEach(el => io.observe(el));
 });
 
 // Exp nav active state on scroll
-const entries = ["exp-4bill","exp-freelance","exp-bank"];
+const entries = ["exp-4bill","exp-freelance"];
 const navItems = document.querySelectorAll(".exp-nav-item");
 const expObserver = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       navItems.forEach(n => n.classList.remove("active"));
-      const idx = ["exp-4bill","exp-freelance","exp-bank"].indexOf(e.target.id);
+      const idx = ["exp-4bill","exp-freelance"].indexOf(e.target.id);
       if (idx >= 0) navItems[idx].classList.add("active");
     }
   });
 }, { threshold: 0.5 });
-["exp-4bill","exp-freelance","exp-bank"].forEach(id => {
+["exp-4bill","exp-freelance"].forEach(id => {
   const el = document.getElementById(id);
   if (el) expObserver.observe(el);
 });
@@ -697,6 +680,7 @@ function scrollTo(el) { el.scrollIntoView({ behavior: "smooth", block: "start" }
 
   // Key dates
   const fourBillStart = new Date(2025, 8, 1);   // Sep 2025
+  const fourBillEnd = new Date(2026, 5, 30);    // Jun 30 2026 (role ended)
   const freelanceStart = new Date(2025, 1, 1);  // Feb 2025
   const freelanceEnd = new Date(2025, 4, 1);    // May 2025
 
@@ -705,10 +689,10 @@ function scrollTo(el) { el.scrollIntoView({ behavior: "smooth", block: "start" }
     return (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
   }
 
-  const fourBillMonths = monthsBetween(fourBillStart, now);
+  const fourBillMonths = monthsBetween(fourBillStart, fourBillEnd);
   const freelanceMonths = monthsBetween(freelanceStart, freelanceEnd); // fixed: 3
   const totalAnalyticsMonths = freelanceMonths + fourBillMonths;
-  const careerMonths = monthsBetween(freelanceStart, now); // from first analytics role
+  const careerMonths = monthsBetween(freelanceStart, fourBillEnd); // first analytics role -> most recent role end
 
   // Format duration: "6mo", "1yr", "1.5yr", "2yr", "2yr 3mo", etc.
   function fmt(months) {
