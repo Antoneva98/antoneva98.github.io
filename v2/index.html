@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artem Antonevych – Data Analyst</title>
+<meta name="description" content="Data Analyst at 4bill.io. SQL · Python · Tableau · A/B Testing. Open to remote roles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0B0C;
+  --bg-2:#101012;
+  --surface:#141416;
+  --line:rgba(236,231,225,.10);
+  --line-2:rgba(236,231,225,.16);
+  --text:#ECE7E1;
+  --muted:rgba(236,231,225,.58);
+  --muted-2:rgba(236,231,225,.52);
+  --accent:#FF5C9D;          /* pink, used as the signature accent */
+  --accent-soft:rgba(255,92,157,.15);
+  --sans:'Montserrat',system-ui,sans-serif;
+  --display:'Fraunces','Times New Roman',Georgia,serif;  /* editorial serif for headlines */
+  --script:'Fraunces',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent-soft);color:var(--text)}
+html{scrollbar-color:var(--line-2) transparent;scrollbar-width:thin}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--line-2);border:2px solid var(--bg);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+
+/* subtle glow backdrop */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(60% 50% at 50% -10%, rgba(255,92,157,.10), transparent 70%),
+    radial-gradient(45% 45% at 88% 8%, rgba(160,90,220,.07), transparent 70%);
+}
+/* film grain — turns flat black into "expensive" black */
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* labels */
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted-2);
+  display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--line-2)}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  backdrop-filter:blur(14px);
+  background:rgba(11,11,12,.62);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s ease,background .3s ease;
+}
+nav.scrolled{border-bottom:1px solid var(--line);background:rgba(11,11,12,.82)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{font-family:var(--script);font-style:italic;font-size:23px;line-height:1;letter-spacing:.01em}
+.brand em{font-style:italic;color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-size:13.5px;color:var(--muted);transition:color .2s ease}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{
+  font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+  border:1px solid var(--line-2);border-radius:999px;
+  padding:9px 18px;color:var(--text);
+  transition:border-color .25s ease,background .25s ease;
+}
+.nav-cta:hover{border-color:var(--accent);background:var(--accent-soft)}
+.nav-toggle{
+  display:none;width:42px;height:42px;flex:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  border:1px solid var(--line-2);border-radius:10px;background:transparent;cursor:pointer;
+  transition:border-color .25s ease;
+}
+.nav-toggle:hover{border-color:var(--accent)}
+.nav-toggle span{display:block;width:18px;height:1.5px;background:var(--text);transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .2s ease}
+.nav-toggle.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ===== HERO ===== */
+.hero{padding:148px 0 96px;position:relative}
+.hero .eyebrow{margin-bottom:30px}
+.h-title{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(38px,5vw,64px);line-height:1.06;letter-spacing:-.015em;
+  max-width:16ch;text-wrap:balance;
+}
+.h-title .it{font-family:var(--script);font-style:italic;font-weight:500;color:var(--accent);padding:0 .03em}
+.h-title .stroke{
+  font-style:italic;color:transparent;
+  -webkit-text-stroke:1px var(--muted);
+}
+.h-sub{
+  margin-top:34px;max-width:60ch;font-size:18px;line-height:1.7;color:var(--muted);
+}
+.h-sub b{color:var(--text);font-weight:500}
+.h-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:14.5px;font-weight:500;border-radius:999px;
+  padding:14px 26px;transition:all .25s cubic-bezier(.16,1,.3,1);
+  border:1px solid transparent;cursor:pointer;
+}
+.btn-primary{background:var(--text);color:#0B0B0C}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(236,231,225,.12)}
+.btn-ghost{border-color:var(--line-2);color:var(--text)}
+.btn-ghost:hover{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn svg{width:16px;height:16px;transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.btn:hover svg{transform:translateX(3px)}
+
+/* stat strip */
+.stats{display:flex;flex-wrap:wrap;gap:20px 64px;margin-top:60px;padding-top:30px;border-top:1px solid var(--line)}
+.stat{position:relative;padding-top:18px}
+.stat::before{content:"";position:absolute;top:0;left:0;width:26px;height:2px;background:var(--accent)}
+.stat-v{font-family:var(--display);font-size:clamp(34px,4.4vw,50px);line-height:1;letter-spacing:-.01em}
+.stat-v em{font-family:var(--script);font-style:italic;color:var(--accent);padding:0 .03em}
+.stat-l{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-top:14px}
+
+.hero .container{position:relative;z-index:1}
+.hero .h-title{max-width:16ch}
+.hero .h-sub{max-width:56ch}
+
+/* ===== PROOF (pinned scene: bars ~50% morph into <1h decay curve) ===== */
+.track{position:relative;height:360vh;border-top:1px solid var(--line)}
+.pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.pin canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.caps{position:absolute;inset:0;z-index:4;pointer-events:none}
+.caps .container{height:100%;display:flex;align-items:center}
+.cap{position:absolute;max-width:24ch;will-change:opacity,transform}
+.cap .lab{margin-bottom:18px}
+.cap .big{font-family:var(--display);font-weight:400;font-size:clamp(56px,7.5vw,104px);line-height:.92;letter-spacing:-.02em;color:var(--accent)}
+.cap .big small{font-family:var(--script);font-style:italic;font-size:.30em;color:var(--text);margin-left:.15em;letter-spacing:0}
+.cap p{margin-top:22px;font-size:18px;line-height:1.6;color:var(--muted);max-width:24ch}
+.cap p b{color:var(--text);font-weight:500}
+.cap .src{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted-2);margin-top:26px;text-transform:uppercase}
+@media(max-width:760px){.cap{max-width:22ch}.cap .big{font-size:clamp(56px,18vw,90px)}}
+
+/* ===== STATEMENT (scroll word reveal) ===== */
+.statement{padding:128px 0;border-top:1px solid var(--line)}
+.statement .eyebrow{margin-bottom:36px}
+.statement-text{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(28px,4.6vw,60px);line-height:1.24;letter-spacing:-.005em;
+  max-width:22ch;
+}
+.statement-text .w{display:inline;color:var(--text);opacity:.14;transition:opacity .15s linear}
+.statement-text .w.it{font-family:var(--script);font-style:italic;color:var(--accent);padding:0 .03em}
+
+/* ===== CONTEXT / TRUST ===== */
+.trust{border-top:1px solid var(--line);padding:104px 0}
+.trust .eyebrow{margin-bottom:24px}
+.trust-h2{font-family:var(--display);font-weight:400;font-size:clamp(26px,3.6vw,42px);line-height:1.16;letter-spacing:-.01em;max-width:22ch;margin-bottom:54px}
+.trust-h2 em{font-style:italic;color:var(--accent)}
+.trust-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:34px 66px}
+.trust-row svg{height:42px;width:auto;display:block;opacity:.5;transition:opacity .25s ease,transform .25s ease}
+.trust-row svg path{fill:var(--text)}
+.trust-row svg:hover{opacity:1;transform:translateY(-3px)}
+
+/* ===== SECTION SHELL ===== */
+section{padding:104px 0;border-top:1px solid var(--line)}
+.sec-head{margin-bottom:56px}
+.sec-head .eyebrow{margin-bottom:22px}
+.h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,5vw,58px);line-height:1.05;letter-spacing:-.01em;max-width:18ch}
+.h2 em{font-style:italic;color:var(--accent)}
+
+/* ===== ABOUT ===== */
+.about-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:64px;align-items:start}
+.about-head{position:sticky;top:96px;align-self:start}
+.about-body p{font-size:18px;line-height:1.8;color:var(--muted);margin-bottom:24px;max-width:62ch}
+.about-body p:last-child{margin-bottom:0}
+/* scroll-linked marker: pink band fills across each key phrase in step with scroll */
+.about-body b,.exp-list b{
+  color:var(--text);font-weight:500;
+  background:linear-gradient(rgba(255,92,157,.30),rgba(255,92,157,.30)) no-repeat;
+  background-position:0 100%;background-size:0% 38%;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+.about-tl{margin-top:44px;border-left:1px solid var(--line-2);padding-left:26px;display:flex;flex-direction:column;gap:30px}
+.tl-item{position:relative}
+.tl-item::before{content:"";position:absolute;left:-30.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--bg)}
+.tl-role{font-family:var(--display);font-size:21px;line-height:1.15}
+.tl-meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted-2);margin-top:7px}
+.tl-meta b{color:var(--accent);font-weight:400}
+.tl-desc{font-size:14px;color:var(--muted);margin-top:9px;line-height:1.5}
+
+/* ===== SKILLS ===== */
+.skills-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:42px 60px}
+.skills-wrap .reveal{transform:translateY(30px)}
+.skills-wrap .reveal.d1{transition-delay:.12s}
+.skills-wrap .reveal.d2{transition-delay:.24s}
+.skills-wrap .reveal.d3{transition-delay:.36s}
+.skill-group h3{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{font-size:13.5px;padding:8px 14px;border-radius:999px;border:1px solid var(--line-2);color:var(--muted);transition:border-color .2s ease,color .2s ease,background .2s ease}
+.chip.key{border-color:transparent;background:var(--accent-soft);color:var(--text);font-weight:500}
+.chip:hover{border-color:var(--accent);color:var(--text)}
+.skills-note{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted-2);margin-top:30px;display:flex;align-items:center;gap:8px}
+.skills-note .dot{width:12px;height:12px;border-radius:999px;background:var(--accent-soft);flex:none}
+
+/* ===== EXPERIENCE ===== */
+.exp{display:flex;flex-direction:column}
+.exp-row{display:grid;grid-template-columns:.42fr 1.58fr;gap:48px;padding:40px 0;border-top:1px solid var(--line)}
+.exp-row:first-child{border-top:none}
+.exp-when{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;color:var(--muted)}
+.exp-tag{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--line-2);border-radius:999px;padding:5px 12px}
+.exp-role{font-family:var(--display);font-size:30px;line-height:1.12}
+.exp-co{font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;color:var(--muted-2);margin:8px 0 22px}
+.exp-list{list-style:none;display:flex;flex-direction:column;gap:14px}
+.exp-list li{font-size:15.5px;line-height:1.65;color:var(--muted);padding-left:22px;position:relative}
+.exp-list li::before{content:"–";position:absolute;left:0;color:var(--accent)}
+.exp-list b{font-weight:600}
+
+/* ===== WORK ===== */
+.work{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.work-item{background:var(--bg);padding:38px 36px;transition:background .3s ease}
+.work-item:hover{background:var(--bg-2)}
+.work-top{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:8px}
+.work-num{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--muted-2)}
+.work-title{font-family:var(--display);font-size:clamp(24px,3vw,34px);line-height:1.12;margin:6px 0 26px;max-width:24ch}
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.work-cell .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.work-cell .v{font-size:14.5px;line-height:1.6;color:var(--muted)}
+.work-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--muted);margin-top:24px;transition:color .2s ease}
+.work-link:hover{color:var(--accent)}
+
+/* ===== TESTIMONIALS ===== */
+.quotes{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:8px}
+.quote{background:var(--surface);padding:38px 36px;display:flex;flex-direction:column;gap:26px}
+.quote .q-mark{font-family:var(--script);font-style:italic;font-size:64px;line-height:.5;color:var(--accent);height:30px}
+.quote blockquote{font-size:18px;line-height:1.62;color:var(--text);flex:1}
+.quote .q-em{font-family:var(--script);font-style:italic;color:var(--accent)}
+.quote figcaption{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line);padding-top:20px}
+.quote .q-avatar{width:42px;height:42px;border-radius:50%;flex:none;background:var(--accent-soft);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-family:var(--script);font-style:italic;font-size:20px;color:var(--accent)}
+.quote .q-who strong{display:block;font-size:14.5px;font-weight:600;color:var(--text)}
+.quote .q-who span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted-2)}
+.quote-placeholder{position:relative}
+.quote-placeholder::after{content:"SAMPLE";position:absolute;top:18px;right:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--muted-2);border:1px solid var(--line-2);border-radius:999px;padding:3px 9px}
+@media(max-width:760px){.quotes{grid-template-columns:1fr}}
+
+/* ===== CONTACT ===== */
+.contact-lead{font-family:var(--display);font-size:clamp(32px,5vw,58px);line-height:1.06;letter-spacing:-.01em;max-width:14ch}
+.contact-lead em{font-style:italic;color:var(--accent)}
+.contact-sub{font-size:17px;color:var(--muted);margin-top:24px;max-width:54ch}
+.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:48px}
+.c-tile{background:var(--bg);padding:24px 26px;display:flex;flex-direction:column;gap:6px;transition:background .25s ease}
+.c-tile:hover{background:var(--bg-2)}
+.c-tile .ck{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
+.c-tile .cv{font-size:15.5px;color:var(--text);transition:color .2s ease;word-break:break-word}
+.c-tile:hover .cv{color:var(--accent)}
+
+/* ===== FOOTER ===== */
+footer{border-top:1px solid var(--line);padding:30px 0}
+.foot-in{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+footer p{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted-2)}
+
+/* ===== REVEAL MOTION ===== */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.06s}
+.reveal.d2{transition-delay:.12s}
+.reveal.d3{transition-delay:.18s}
+.reveal.d4{transition-delay:.24s}
+
+/* focus */
+a:focus-visible,.btn:focus-visible,.nav-cta:focus-visible,.c-tile:focus-visible,.work-link:focus-visible,.nav-links a:focus-visible,.trust-row svg:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  section{padding:88px 0}
+  .statement{padding:104px 0}
+  .about-grid{grid-template-columns:1fr;gap:36px}
+  .about-head{position:static}
+  .exp-row{grid-template-columns:1fr;gap:18px}
+  .work-grid{grid-template-columns:1fr;gap:20px}
+}
+@media(max-width:760px){
+  .hero .h-title{max-width:16ch}
+  .hero .h-sub{max-width:60ch}
+  /* pinned scene → static stacked numbers (no canvas, no tall scroll, no overlap) */
+  .track{height:auto}
+  .pin{position:static;height:auto;overflow:visible;padding:84px 0}
+  #scene{display:none}
+  .caps{position:static}
+  .caps .container{display:block;height:auto}
+  .cap{position:static;opacity:1!important;transform:none!important;max-width:none;margin-bottom:48px}
+  .cap:last-child{margin-bottom:0}
+}
+@media(max-width:820px){
+  .container{padding:0 22px}
+  .nav-toggle{display:flex}
+  .nav-links{
+    position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:rgba(11,11,12,.97);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);padding:0 22px;
+    max-height:0;overflow:hidden;opacity:0;pointer-events:none;
+    transition:max-height .36s cubic-bezier(.16,1,.3,1),opacity .25s ease,padding .3s ease;
+  }
+  .nav-links.open{max-height:360px;opacity:1;pointer-events:auto;padding:6px 22px 18px}
+  .nav-links a{padding:14px 2px;font-size:15px;color:var(--text);border-bottom:1px solid var(--line)}
+  .nav-cta{margin-top:14px;text-align:center;justify-content:center;border-bottom:none}
+  .hero{padding:120px 0 72px}
+  .stats{gap:24px 40px}
+  .skills-wrap{grid-template-columns:1fr;gap:30px}
+  .contact-grid{grid-template-columns:1fr}
+  section{padding:76px 0}
+}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+  /* no scroll-driven scene → show the two results as static stacked text */
+  .track{height:auto}
+  .pin{position:static;height:auto;overflow:visible;padding:104px 0}
+  #scene{display:none}
+  .caps{position:static}
+  .caps .container{display:block;height:auto}
+  .cap{position:static;opacity:1!important;transform:none!important;max-width:none;margin-bottom:48px}
+  .cap:last-child{margin-bottom:0}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav id="nav">
+  <div class="container nav-in">
+    <a href="#top" class="brand">Artem <em>Antonevych</em></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#work">Work</a>
+      <a href="#testimonials">Recommendations</a>
+      <a href="mailto:artem.antonevych.da@gmail.com" class="nav-cta">Hire me</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div id="flow">
+<!-- ===== HERO ===== -->
+<header class="hero" id="top">
+  <div class="container">
+    <span class="eyebrow reveal">Data Analyst · Rivne / Remote</span>
+    <h1 class="h-title reveal d1">Data <span class="it">analytics</span> that protect <span class="stroke">revenue</span>.</h1>
+    <p class="h-sub reveal d2">Data Analyst with <b>1.5+ years</b> of experience in anti-fraud analytics and product data. At 4bill.io I built the <b>real-time fraud dashboard</b> the whole team now runs on – cutting fraud response from hours to <b>under 1h</b> and halving the analysis workload.</p>
+    <div class="h-actions reveal d3">
+      <a href="mailto:artem.antonevych.da@gmail.com" class="btn btn-primary">
+        Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="https://github.com/Antoneva98" target="_blank" rel="noopener" class="btn btn-ghost">View GitHub</a>
+    </div>
+
+    <div class="stats reveal d3">
+      <div class="stat">
+        <div class="stat-v">1.5<em>yr</em></div>
+        <div class="stat-l">Analytics experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-v">~5<em>h</em></div>
+        <div class="stat-l">Manual work saved / week</div>
+      </div>
+      <div class="stat">
+        <div class="stat-v">10<em>+</em></div>
+        <div class="stat-l">Company projects automated</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== STATEMENT (scroll word-by-word reveal) ===== -->
+<section class="statement">
+  <div class="container">
+    <span class="eyebrow">Approach</span>
+    <p class="statement-text" id="stmt">From stopping *fraud* at 4bill.io to finding *growth* across product, email and sales data in 15+ markets – I make the numbers tell you what to do next.</p>
+  </div>
+</section>
+
+<!-- ===== PROOF (pinned scene: ~50% bars morph into <1h decay curve) ===== -->
+<div class="track" id="proof">
+  <div class="pin">
+    <canvas id="scene"></canvas>
+    <div class="caps">
+      <div class="container">
+        <div class="cap" id="cap1">
+          <span class="eyebrow lab">Analysis time / case</span>
+          <div class="big">~50%<small>less</small></div>
+          <p>The real-time dashboard <b>halved</b> the time it takes to work a single case.</p>
+          <div class="src">Real result · 4bill.io · 2025</div>
+        </div>
+        <div class="cap" id="cap2" style="opacity:0">
+          <span class="eyebrow lab">Fraud response time</span>
+          <div class="big">&lt;1h<small>now</small></div>
+          <p>Response dropped from <b>several hours</b> to under an hour – flagged before it spreads.</p>
+          <div class="src">After rollout · 4bill.io · 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONTEXT / TRUST STRIP ===== -->
+<div class="trust" aria-label="Context and tools">
+  <div class="container">
+    <span class="eyebrow reveal">Where &amp; with what</span>
+    <h2 class="trust-h2 reveal d1">Built at <em>4bill.io</em> — with the tools I actually ship on.</h2>
+    <div class="trust-row reveal d2">
+      <svg role="img" aria-label="PostgreSQL" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>PostgreSQL</title><path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"/></svg>
+      <svg role="img" aria-label="Python" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Python</title><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg>
+      <svg role="img" aria-label="Tableau" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><title>Tableau</title><path d="M15.536 0.235v2.937h-2.624v0.771h2.624v2.937h0.933v-2.937h2.624v-0.771h-2.624v-2.937zM23.579 3.251v4.328h-3.943v1.233h3.943v4.251h1.391l0.009-2.109 0.032-2.099 1.953-0.032 1.943-0.011v-1.233h-3.937v-4.328zM7.036 3.328v4.256h-3.984v1.228h3.984v4.256h1.313v-4.256h4.015v-1.233h-4.015v-4.251zM15.151 10.355v4.791h-4.405v1.584h4.405v4.797h1.709v-4.797h4.411v-1.584h-4.411v-4.791zM28.115 12.421v2.959h-2.688v1.084h2.688v3.015h1.183v-3.015h2.703v-1.084h-2.703v-2.959zM2.631 12.593v2.901h-2.631v0.828h2.631v2.928h0.891v-2.928h2.667v-0.828h-2.709v-2.901zM23.579 18.62v4.339h-4.027v1.235h4.027v4.285h1.427v-4.285h3.979v-1.235h-3.979v-4.339zM6.959 18.631v4.328h-3.943v1.235h3.943v4.255h1.468v-4.255h3.937v-1.235h-3.937v-4.333h-0.733zM15.38 24.735v2.937h-2.625v1.077h2.625v3.016h1.24l0.016-1.489 0.020-1.527h2.631v-1.077h-2.667v-2.937z"/></svg>
+      <svg role="img" aria-label="n8n" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>n8n</title><path clip-rule="evenodd" fill-rule="evenodd" d="M24 8.4c0 1.325-1.102 2.4-2.462 2.4-1.146 0-2.11-.765-2.384-1.8h-3.436c-.602 0-1.115.424-1.214 1.003l-.101.592a2.38 2.38 0 01-.8 1.405c.412.354.704.844.8 1.405l.1.592A1.222 1.222 0 0015.719 15h.975c.273-1.035 1.237-1.8 2.384-1.8 1.36 0 2.461 1.075 2.461 2.4S20.436 18 19.078 18c-1.147 0-2.11-.765-2.384-1.8h-.975c-1.204 0-2.23-.848-2.428-2.005l-.101-.592a1.222 1.222 0 00-1.214-1.003H10.97c-.308.984-1.246 1.7-2.356 1.7-1.11 0-2.048-.716-2.355-1.7H4.817c-.308.984-1.246 1.7-2.355 1.7C1.102 14.3 0 13.225 0 11.9s1.102-2.4 2.462-2.4c1.183 0 2.172.815 2.408 1.9h1.337c.236-1.085 1.225-1.9 2.408-1.9 1.184 0 2.172.815 2.408 1.9h.952c.601 0 1.115-.424 1.213-1.003l.102-.592c.198-1.157 1.225-2.005 2.428-2.005h3.436c.274-1.035 1.238-1.8 2.384-1.8C22.898 6 24 7.075 24 8.4zm-1.23 0c0 .663-.552 1.2-1.232 1.2-.68 0-1.23-.537-1.23-1.2 0-.663.55-1.2 1.23-1.2.68 0 1.231.537 1.231 1.2zM2.461 13.1c.68 0 1.23-.537 1.23-1.2 0-.663-.55-1.2-1.23-1.2-.68 0-1.231.537-1.231 1.2 0 .663.55 1.2 1.23 1.2zm6.153 0c.68 0 1.231-.537 1.231-1.2 0-.663-.55-1.2-1.23-1.2-.68 0-1.231.537-1.231 1.2 0 .663.55 1.2 1.23 1.2zm10.462 3.7c.68 0 1.23-.537 1.23-1.2 0-.663-.55-1.2-1.23-1.2-.68 0-1.23.537-1.23 1.2 0 .663.55 1.2 1.23 1.2z"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-head reveal">
+      <span class="eyebrow">About</span>
+      <h2 class="h2">Catch what one metric <em>misses</em></h2>
+    </div>
+    <div class="about-body">
+      <p class="reveal">I'm an <b>Anti-Fraud Specialist at 4bill.io</b>. I watch pay-in and payout transactions in real time – and dig through the history – to catch suspicious behaviour while it's still cheap to stop.</p>
+      <p class="reveal d1">Most cases come down to cross-referencing several signals at once – <b>IP, device fingerprints, BINs, geolocation, velocity and transaction amounts</b> – in SQL (Athena, PostgreSQL) and Python, to catch what a single metric would miss.</p>
+      <p class="reveal d2">The numbers I live by: <b>TPR, FPR, precision, recall, fraud rate and loss rate</b> – and the dashboards that put them in front of the whole team in real time. One view everyone trusts, fast enough to act on.</p>
+      <p class="reveal d3">Before 4bill.io – and alongside it – I ran freelance analytics on <b>product, email and sales data across 15+ markets</b>, from raw SQL to the final read-out.</p>
+      <div class="about-tl reveal d4">
+        <div class="tl-item">
+          <div class="tl-role">Anti-Fraud Specialist</div>
+          <div class="tl-meta">4bill.io · <b>10 mo</b></div>
+          <div class="tl-desc">Real-time payment monitoring across pay-in & payout</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-role">Freelance Data Analyst</div>
+          <div class="tl-meta">Independent · <b>11 mo</b></div>
+          <div class="tl-desc">SQL &amp; Python on real-world product, email & sales data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Toolkit</span>
+      <h2 class="h2">Work across the full <em>stack</em></h2>
+    </div>
+    <div class="skills-wrap">
+      <div class="skill-group reveal">
+        <h3>SQL &amp; DB</h3>
+        <div class="chips">
+          <span class="chip key">SQL</span>
+          <span class="chip key">Query Optimization</span>
+          <span class="chip key">Window Functions</span>
+          <span class="chip key">CTEs</span>
+          <span class="chip key">PostgreSQL</span>
+          <span class="chip">AWS Athena</span>
+          <span class="chip">MongoDB</span>
+        </div>
+      </div>
+      <div class="skill-group reveal d1">
+        <h3>Python</h3>
+        <div class="chips">
+          <span class="chip key">Pandas</span>
+          <span class="chip key">NumPy</span>
+          <span class="chip key">Matplotlib</span>
+          <span class="chip key">Seaborn</span>
+          <span class="chip">EDA</span>
+        </div>
+      </div>
+      <div class="skill-group reveal d2">
+        <h3>Visualization</h3>
+        <div class="chips">
+          <span class="chip key">Tableau</span>
+          <span class="chip key">Looker Studio</span>
+          <span class="chip">Google Sheets</span>
+          <span class="chip">Pivot Tables</span>
+          <span class="chip">Data Cleaning</span>
+        </div>
+      </div>
+      <div class="skill-group reveal d3">
+        <h3>Analytics</h3>
+        <div class="chips">
+          <span class="chip key">A/B Testing</span>
+          <span class="chip key">Hypothesis Testing</span>
+          <span class="chip">Anomaly Detection</span>
+          <span class="chip key">Fraud Metrics (TPR/FPR)</span>
+          <span class="chip key">Segmentation</span>
+          <span class="chip">Correlation Analysis</span>
+        </div>
+      </div>
+    </div>
+    <p class="skills-note reveal d2"><span class="dot"></span> filled = strongest skills</p>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section id="experience">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Timeline</span>
+      <h2 class="h2">Delivered where it <em>counted</em></h2>
+    </div>
+    <div class="exp">
+      <div class="exp-row reveal">
+        <div>
+          <div class="exp-when">Sep 2025 – Jun 2026</div>
+          <span class="exp-tag">Most recent</span>
+        </div>
+        <div>
+          <div class="exp-role">Anti-Fraud Specialist</div>
+          <div class="exp-co">4bill.io · 10 months</div>
+          <ul class="exp-list">
+            <li>Built the team's <b>real-time fraud dashboard</b> (hourly + daily views with alerts) – cut analysis time by <b>~50%</b> and dropped fraud response from several hours to <b>under 1 hour</b>.</li>
+            <li>Automated daily <b>multi-accounting detection and recurring reporting</b> (n8n + Python) – saved <b>~5 hours of manual work a week</b>.</li>
+            <li>Dug into fraud across <b>IP, device fingerprints, BINs, geolocation and velocity</b> in SQL and Python, then turned what I found into new prevention rules.</li>
+            <li>Ran <b>cohort analysis</b> to profile fraudster behaviour and build risk portraits – cutting the share of fraud that slipped through unnoticed.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-row reveal d1">
+        <div>
+          <div class="exp-when">Nov 2024 – Sep 2025</div>
+          <span class="exp-tag">Freelance</span>
+        </div>
+        <div>
+          <div class="exp-role">Data Analyst</div>
+          <div class="exp-co">Independent Projects · 11 months</div>
+          <ul class="exp-list">
+            <li>Ran self-directed analytics projects on <b>real-world datasets</b> – from raw data to the final read-out, in SQL and Python.</li>
+            <li>Built a <b>full-funnel SQL pipeline</b> for user acquisition and email engagement across <b>10+ countries</b> – to find which markets converted best.</li>
+            <li>Conducted <b>ABC analysis of 200+ product categories</b> across 15+ countries, informing inventory prioritization and pricing strategy.</li>
+            <li>Performed <b>multi-year sales trend analysis</b> with seasonal decomposition and built a content-based book recommendation engine (TF-IDF, cosine similarity).</li>
+            <li><b>Tools:</b> SQL (CTEs, window functions, JOINs) · Python (Pandas, NumPy, Matplotlib, Seaborn) · Tableau · Looker Studio.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORK ===== -->
+<section id="work">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Portfolio</span>
+      <h2 class="h2">Shipped and <em>adopted</em></h2>
+    </div>
+    <div class="work">
+      <div class="work-item reveal">
+        <div class="work-top"><span class="work-num">01 · Internal · 4bill.io</span></div>
+        <h3 class="work-title">Anti-Fraud Real-Time Dashboard</h3>
+        <div class="work-grid">
+          <div class="work-cell"><div class="k">Problem</div><div class="v">Fraud rule triggers and blacklist activity were invisible – slow manual detection, no shared signal.</div></div>
+          <div class="work-cell"><div class="k">Solution</div><div class="v">Interactive dashboard aggregating rule triggers, BINs, device fingerprints and geolocation data in real time.</div></div>
+          <div class="work-cell"><div class="k">Impact</div><div class="v">Faster detection and clearer calls on what to block – now a core monitoring tool at 4bill.io.</div></div>
+        </div>
+      </div>
+      <div class="work-item reveal d1">
+        <div class="work-top"><span class="work-num">02 · SQL · github.com/Antoneva98</span></div>
+        <h3 class="work-title">Global Email Engagement &amp; Account Creation Analysis</h3>
+        <div class="work-grid">
+          <div class="work-cell"><div class="k">Problem</div><div class="v">Email performance across countries lived in separate sources with no unified view.</div></div>
+          <div class="work-cell"><div class="k">Solution</div><div class="v">Multi-country SQL analysis combining engagement metrics with segmentation attributes for user-level insight.</div></div>
+          <div class="work-cell"><div class="k">Impact</div><div class="v">One report showing which segments and regions performed – and which lagged behind.</div></div>
+        </div>
+        <a href="https://github.com/Antoneva98/portfolio/tree/main/sql" target="_blank" rel="noopener" class="work-link">View on GitHub →</a>
+      </div>
+      <div class="work-item reveal d2">
+        <div class="work-top"><span class="work-num">03 · Python EDA · github.com/Antoneva98</span></div>
+        <h3 class="work-title">Global Retail Sales Analysis (Multi-Channel EDA)</h3>
+        <div class="work-grid">
+          <div class="work-cell"><div class="k">Problem</div><div class="v">Multi-year sales data from online/offline channels was siloed in 3 unlinked datasets with quality issues.</div></div>
+          <div class="work-cell"><div class="k">Solution</div><div class="v">Cleaned and joined events, products and countries; full EDA – time trends, geographic heatmaps, weekday seasonality.</div></div>
+          <div class="work-cell"><div class="k">Impact</div><div class="v">Mapped revenue patterns, thin-margin products and delivery-delay hotspots across markets.</div></div>
+        </div>
+        <a href="https://github.com/Antoneva98/portfolio/tree/main/python" target="_blank" rel="noopener" class="work-link">View on GitHub →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS (SAMPLE – replace with real quotes) ===== -->
+<section id="testimonials">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Recommendations</span>
+      <h2 class="h2">Trusted by the <em>team</em></h2>
+    </div>
+    <div class="quotes">
+      <figure class="quote quote-placeholder reveal">
+        <div class="q-mark">"</div>
+        <blockquote>Artem built the <span class="q-em">real-time fraud dashboard</span> the whole team now starts the day with. He turns messy transaction data into decisions we can act on in minutes, not hours.</blockquote>
+        <figcaption>
+          <div class="q-avatar">L</div>
+          <div class="q-who"><strong>Sample Name</strong><span>Team Lead · 4bill.io</span></div>
+        </figcaption>
+      </figure>
+      <figure class="quote quote-placeholder reveal d1">
+        <div class="q-mark">"</div>
+        <blockquote>Reliable, curious, and fast. Artem owns a problem end-to-end – from the <span class="q-em">SQL</span> to the stakeholder story – and the dashboards he ships just keep getting used.</blockquote>
+        <figcaption>
+          <div class="q-avatar">S</div>
+          <div class="q-who"><strong>Sample Name</strong><span>Product Manager · 4bill.io</span></div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <span class="eyebrow reveal">Contact</span>
+    <h2 class="contact-lead reveal d1" style="margin-top:22px">Let's work <em>together</em>.</h2>
+    <p class="contact-sub reveal d1">Open to Data Analyst roles – remote or Rivne-based. I respond within 24 hours.</p>
+    <div class="contact-grid reveal d2">
+      <a class="c-tile" href="mailto:artem.antonevych.da@gmail.com"><span class="ck">Email</span><span class="cv">artem.antonevych.da@gmail.com</span></a>
+      <a class="c-tile" href="https://www.linkedin.com/in/antonevych" target="_blank" rel="noopener"><span class="ck">LinkedIn</span><span class="cv">linkedin.com/in/antonevych</span></a>
+      <a class="c-tile" href="https://github.com/Antoneva98" target="_blank" rel="noopener"><span class="ck">GitHub</span><span class="cv">github.com/Antoneva98</span></a>
+      <a class="c-tile" href="tel:+380631708067"><span class="ck">Phone</span><span class="cv">+38 063 170 80 67</span></a>
+    </div>
+    <div class="h-actions reveal d2" style="margin-top:40px">
+      <a href="mailto:artem.antonevych.da@gmail.com" class="btn btn-primary">
+        Send a message
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container foot-in">
+    <p>© 2025–2026 Artem Antonevych · Rivne / Remote · Ukraine</p>
+    <p>Data Analyst</p>
+  </div>
+</footer>
+</div><!-- /#flow -->
+
+<script>
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* nav border on scroll */
+const navEl=document.getElementById('nav');
+addEventListener('scroll',()=>navEl.classList.toggle('scrolled',scrollY>12),{passive:true});
+
+/* mobile nav toggle */
+(function(){
+  const t=document.getElementById('navToggle'), l=document.getElementById('navLinks');
+  if(!t||!l) return;
+  const set=open=>{ l.classList.toggle('open',open); t.classList.toggle('open',open); t.setAttribute('aria-expanded',open); t.setAttribute('aria-label',open?'Close menu':'Open menu'); };
+  t.addEventListener('click',()=>set(!l.classList.contains('open')));
+  l.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>set(false)));
+})();
+
+/* reveal on scroll (covers cloned nodes) */
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
+},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* scroll-driven word-by-word reveal (per statement, original + clone) */
+document.querySelectorAll('.statement-text').forEach(stmt=>{
+  const text=stmt.textContent.trim();
+  stmt.innerHTML=text.split(/\s+/).map(tok=>{
+    const it=/^\*[^*]+\*$/.test(tok); const clean=tok.replace(/\*/g,'');
+    return '<span class="w'+(it?' it':'')+'">'+clean+'</span>';
+  }).join(' ');
+  const words=[...stmt.querySelectorAll('.w')];
+  if(reduceMotion){ words.forEach(w=>w.style.opacity=1); return; }
+  const lite=()=>{ const r=stmt.getBoundingClientRect(), vh=innerHeight;
+    const start=vh*0.82, end=vh*0.34, span=r.height+(start-end);
+    const p=Math.max(0,Math.min(1,(start-r.top)/span)); const head=p*(words.length+6)-3;
+    words.forEach((w,i)=>{ w.style.opacity=Math.max(0.14,Math.min(1,head-i)); });
+  };
+  addEventListener('scroll',lite,{passive:true}); addEventListener('resize',lite); lite();
+});
+
+/* ===== PROOF: pinned scene — bars (~50%) morph into decay curve (<1h) ===== */
+(function(){
+  const smooth=t=>{t=t<0?0:t>1?1:t;return t*t*(3-2*t);};
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const clamp01=t=>t<0?0:t>1?1:t;
+  const track=document.getElementById('proof');
+  const cv=document.getElementById('scene'); if(!track||!cv) return;
+  const ctx=cv.getContext('2d');
+  const cap1=document.getElementById('cap1'), cap2=document.getElementById('cap2');
+  // mobile + reduced-motion get a static stacked fallback (handled in CSS) — skip the canvas scene entirely
+  if(reduceMotion || matchMedia('(max-width:760px)').matches) return;
+  const dpr=Math.min(devicePixelRatio||1,2);
+  let parts=[], cw=0, ch=0, P=0, aS=0, raf=0;
+  const mouse={x:-99999,y:-99999};
+  const decay=x=>0.12+0.88*Math.exp(-x*3.1);
+  const BEFORE=[236,231,225,0.70], AFTER=[255,92,157,1.0];
+
+  function build(){
+    const r=cv.getBoundingClientRect();
+    cw=cv.width=Math.max(1,Math.round(r.width*dpr));
+    ch=cv.height=Math.max(1,Math.round(r.height*dpr));
+    const baseY=ch*0.72, bTopFull=ch*0.30;
+    const bx=cw*0.64, ax=cw*0.82, halfW=Math.min(cw*0.06,70*dpr);
+    const yAfter=baseY-(baseY-bTopFull)*0.5;
+    const cx0=cw*0.40, cx1=cw*0.93, cyBase=baseY, cyTop=ch*0.38, W=cx1-cx0, H=cyBase-cyTop;
+    const spread=Math.max(cw,ch), step=3.5*dpr;
+    parts=[];
+    const pushBar=(x,y,topY,colArr)=>{
+      const edge=y<topY+5*dpr;
+      const a1=Math.random()*6.283, d1=(0.45+Math.random()*0.7)*spread;
+      const a2=Math.random()*6.283, d2=(0.5+Math.random()*0.85)*spread;
+      parts.push({btx:x+(Math.random()-.5)*step, bty:y+(Math.random()-.5)*step, bcol:colArr.slice(), edge,
+        sx:cw*0.5+Math.cos(a1)*d1, sy:ch*0.5+Math.sin(a1)*d1,
+        ox:cw*0.5+Math.cos(a2)*d2, oy:ch*0.5+Math.sin(a2)*d2,
+        ctx:0,cty:0,ccol:null,sz:0,x:0,y:0,vx:0,vy:0});
+    };
+    // dense grid fill = solid bars (not confetti)
+    for(let x=bx-halfW;x<=bx+halfW;x+=step) for(let y=baseY;y>=bTopFull;y-=step) pushBar(x,y,bTopFull,BEFORE);
+    for(let x=ax-halfW;x<=ax+halfW;x+=step) for(let y=baseY;y>=yAfter;y-=step) pushBar(x,y,yAfter,AFTER);
+    // assign curve targets — correlate column with bar height so the morph reads as sand falling, not rising
+    for(const p of parts){
+      const hf=clamp01((baseY-p.bty)/(baseY-bTopFull));    // 0 at baseline .. 1 at top of (tall) bar
+      p.relH=hf;
+      const xf=clamp01(1-hf+(Math.random()-0.5)*0.30);     // tall column → crest (left) · short → tail (right)
+      const yLine=cyBase-decay(xf)*H;
+      const t=Math.sqrt(Math.random());                    // bias toward the curve top → denser crest, still filled
+      p.ctx=cx0+xf*W;
+      p.cty=lerp(cyBase,yLine,t);
+      const warm=Math.pow(xf,0.8);
+      p.ccol=[Math.round(lerp(236,255,warm)),Math.round(lerp(231,92,warm)),Math.round(lerp(225,157,warm)),0.38+0.40*t];
+      p.sz=(p.edge?2.0:1.5)*dpr*(0.85+Math.random()*0.35);
+      p.x=reduceMotion?p.ctx:p.sx; p.y=reduceMotion?p.cty:p.sy;
+    }
+    cv._g={baseY,bx,ax,halfW,bTopFull,yAfter,cx0,cx1,cyBase,cyTop,W,H};
+  }
+  function drawAnno(barA,curveA){
+    const g=cv._g; if(!g) return; ctx.save();
+    const baseAlpha=Math.max(barA,curveA);
+    ctx.strokeStyle='rgba(236,231,225,'+(0.14*baseAlpha).toFixed(3)+')'; ctx.lineWidth=1*dpr;
+    ctx.beginPath(); ctx.moveTo(g.cx0,g.baseY+0.5); ctx.lineTo(g.cx1,g.baseY+0.5); ctx.stroke();
+    if(barA>0.01){
+      ctx.globalAlpha=barA; ctx.textAlign='center';
+      ctx.font='500 '+(11*dpr)+'px "JetBrains Mono", monospace';
+      ctx.fillStyle='rgba(236,231,225,0.55)'; ctx.fillText('BEFORE', g.bx, g.baseY+22*dpr);
+      ctx.fillStyle='rgba(255,92,157,0.95)'; ctx.fillText('AFTER', g.ax, g.baseY+22*dpr);
+      ctx.fillStyle='rgba(236,231,225,0.45)'; ctx.fillText('100%', g.bx, g.bTopFull-13*dpr);
+      ctx.fillStyle='rgba(255,92,157,0.95)'; ctx.fillText('~50%', g.ax, g.yAfter-13*dpr);
+      ctx.globalAlpha=1;
+    }
+    if(curveA>0.01){
+      ctx.globalAlpha=curveA;
+      const sx=g.cx0, sy=g.cyBase-decay(0)*g.H, ex=g.cx1, ey=g.cyBase-decay(1)*g.H;
+      ctx.fillStyle='rgba(236,231,225,0.55)'; ctx.beginPath(); ctx.arc(sx,sy,4*dpr,0,6.283); ctx.fill();
+      ctx.fillStyle='rgba(255,92,157,1)'; ctx.beginPath(); ctx.arc(ex,ey,5*dpr,0,6.283); ctx.fill();
+      ctx.strokeStyle='rgba(255,92,157,0.45)'; ctx.lineWidth=1.4*dpr; ctx.beginPath(); ctx.arc(ex,ey,11*dpr,0,6.283); ctx.stroke();
+      ctx.font='500 '+(11*dpr)+'px "JetBrains Mono", monospace'; ctx.textAlign='left';
+      ctx.fillStyle='rgba(236,231,225,0.55)'; ctx.fillText('SEVERAL HOURS', sx+12*dpr, sy-12*dpr);
+      ctx.textAlign='right'; ctx.fillStyle='rgba(236,231,225,0.42)'; ctx.fillText('AFTER ROLLOUT  →', g.cx1, g.cyBase+24*dpr);
+      ctx.globalAlpha=1;
+    }
+    ctx.restore();
+  }
+  function render(){
+    const asm=smooth(aS);                              // assemble — driven by the section approaching (bidirectional)
+    const morphT=smooth(clamp01((P-0.14)/0.30));       // bars -> curve (ends ~0.44)
+    const exitT=clamp01((P-0.78)/0.22);                // disperse — last 22%, after a long hold
+    const curveP=smooth(clamp01((P-0.30)/0.22));       // curve formed ~0.52, then holds until 0.78
+    const env=asm*(1-exitT);
+    const barA=(1-morphT)*env;
+    const curveA=curveP*env;
+    cap1.style.opacity=((1-smooth(clamp01((P-0.16)/0.18)))*asm).toFixed(3);
+    cap1.style.transform='translateY('+(-14*morphT).toFixed(1)+'px)';
+    cap2.style.opacity=(curveP*(1-exitT)).toFixed(3);
+    cap2.style.transform='translateY('+(14*(1-curveP)).toFixed(1)+'px)';
+    ctx.clearRect(0,0,cw,ch);
+    drawAnno(barA,curveA);
+    ctx.globalCompositeOperation='lighter';
+    const mr=90*dpr;
+    for(const p of parts){
+      const dly=(1-p.relH)*0.55;                                          // bar crumbles top-first (sand cascade)
+      const m=smooth(clamp01((morphT-dly)/(1-dly)));
+      const mx=smooth(clamp01((m-0.40)/0.60));                            // horizontal drift trails the fall
+      const fy=lerp(p.bty,p.cty,m*m), fx=lerp(p.btx,p.ctx,mx);            // y falls first (gravity), x slides into column after
+      const ix=lerp(p.sx,fx,asm), iy=lerp(p.sy,fy,asm);                   // scatter -> formation
+      const tx=lerp(ix,p.ox,exitT), ty=lerp(iy,p.oy,exitT);              // formation -> scatter out
+      const dx=p.x-mouse.x, dy=p.y-mouse.y, d2=dx*dx+dy*dy;
+      if(d2<mr*mr){ const d=Math.sqrt(d2)||1,f=(mr-d)/mr; p.vx+=dx/d*f*2.4*dpr; p.vy+=dy/d*f*2.4*dpr; }
+      p.vx+=(tx-p.x)*0.12; p.vy+=(ty-p.y)*0.12; p.vx*=0.78; p.vy*=0.78; p.x+=p.vx; p.y+=p.vy;
+      const c0=p.bcol,c1=p.ccol;
+      const r=Math.round(lerp(c0[0],c1[0],m)), g=Math.round(lerp(c0[1],c1[1],m)), b=Math.round(lerp(c0[2],c1[2],m));
+      const a=lerp(c0[3],c1[3],m)*env;
+      ctx.fillStyle='rgba('+r+','+g+','+b+','+a.toFixed(3)+')';
+      ctx.fillRect(p.x,p.y,p.sz,p.sz);
+    }
+    ctx.globalCompositeOperation='source-over';
+  }
+  function frame(){ render(); raf=requestAnimationFrame(frame); }
+  function progress(){
+    const rect=track.getBoundingClientRect(), vh=innerHeight, H=track.offsetHeight;
+    aS=clamp01((vh-rect.top)/vh);                 // 0 when entering bottom of viewport, 1 when it pins
+    P=clamp01(-rect.top/Math.max(1,H-vh));         // 0..1 across the pinned region
+  }
+  build(); progress();
+  addEventListener('scroll',progress,{passive:true});
+  let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{build();progress();},200); },{passive:true});
+  cv.addEventListener('pointermove',e=>{ const r=cv.getBoundingClientRect(); mouse.x=(e.clientX-r.left)*dpr; mouse.y=(e.clientY-r.top)*dpr; });
+  cv.addEventListener('pointerleave',()=>{ mouse.x=mouse.y=-99999; });
+  frame();
+})();
+
+
+/* ===== scroll-linked marker: each key phrase fills 0->100% as it rises through the reading band ===== */
+(function(){
+  const els=[...document.querySelectorAll('.about-body b, .exp-list b')];
+  if(!els.length) return;
+  if(reduceMotion){ els.forEach(e=>e.style.backgroundSize='100% 38%'); return; }
+  let raf=0;
+  const update=()=>{ raf=0; const vh=innerHeight, start=vh*0.80, end=vh*0.45;
+    for(const el of els){ const top=el.getBoundingClientRect().top;
+      let p=(start-top)/(start-end); p=p<0?0:p>1?1:p;
+      el.style.backgroundSize=(p*100).toFixed(1)+'% 38%'; } };
+  addEventListener('scroll',()=>{ if(!raf) raf=requestAnimationFrame(update); },{passive:true});
+  addEventListener('resize',update); update();
+})();
+
+/* ===== magnetic buttons (desktop, fine pointer only) ===== */
+(function(){
+  if(reduceMotion || !matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  const STR=0.28, MAX=9;
+  document.querySelectorAll('.btn').forEach(btn=>{
+    btn.addEventListener('pointermove',e=>{
+      const r=btn.getBoundingClientRect();
+      let x=(e.clientX-r.left-r.width/2)*STR, y=(e.clientY-r.top-r.height/2)*STR;
+      x=Math.max(-MAX,Math.min(MAX,x)); y=Math.max(-MAX,Math.min(MAX,y));
+      btn.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px)';
+    });
+    btn.addEventListener('pointerleave',()=>{ btn.style.transform=''; });
+  });
+})();
+</script>
+</body>
+</html>
