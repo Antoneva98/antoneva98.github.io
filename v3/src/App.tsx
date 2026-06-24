@@ -231,6 +231,26 @@ function Panel({ id, children, className = '' }: { id?: string; children: ReactN
 function Nav({ active, goTo }: { active: string; goTo: (id: string) => void }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const reduce = useReducedMotion()
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  // Drawer behaviour: lock scroll, close on Escape, focus the first item on
+  // open and return focus to the trigger on close.
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    const first = menuRef.current?.querySelector('button')
+    first?.focus()
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+      hamburgerRef.current?.focus()
+    }
+  }, [menuOpen])
 
   const handleNav = (id: string) => {
     setMenuOpen(false)
@@ -270,6 +290,7 @@ function Nav({ active, goTo }: { active: string; goTo: (id: string) => void }) {
           Get in touch
         </button>
         <button
+          ref={hamburgerRef}
           type="button"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
@@ -283,8 +304,12 @@ function Nav({ active, goTo }: { active: string; goTo: (id: string) => void }) {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            ref={menuRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
             onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 bg-base/95 backdrop-blur-2xl sm:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 overscroll-contain bg-base/95 backdrop-blur-2xl sm:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

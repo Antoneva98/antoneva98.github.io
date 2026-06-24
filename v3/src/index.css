@@ -25,6 +25,23 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+/* Baseline visible focus for any interactive element that doesn't set its own.
+   :where() keeps zero specificity so component-level focus styles still win. */
+:where(a, button, [role='button'], input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Snappier taps, no grey flash, on touch devices. */
+a,
+button,
+[role='button'] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
