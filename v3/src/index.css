@@ -1,0 +1,60 @@
+@import 'tailwindcss';
+
+/* Clash Display — display family (self-host before final; Fontshare for MVP) */
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap');
+
+@theme {
+  /* Ethereal Glass — OLED base, single cool accent */
+  --color-base: #050507;
+  --color-base-2: #08080c;
+  --color-accent: #6e8bff;
+  --color-accent-soft: #9db0ff;
+  --color-t1: #ffffff;
+  --color-t2: rgba(255, 255, 255, 0.62);
+  --color-t3: rgba(255, 255, 255, 0.52);
+
+  --font-display: 'Clash Display', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+
+  --radius-shell: 2rem;
+  --radius-core: 1.55rem;
+
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-base);
+  color: var(--color-t1);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fixed grain overlay — pointer-events none, fixed only */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #050507;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
