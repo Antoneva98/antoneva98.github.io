@@ -633,7 +633,7 @@ function Contact({ goTo }: { goTo: (id: string) => void }) {
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 size-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(110,139,255,0.16), transparent 62%)' }}
+        style={{ background: 'radial-gradient(circle, rgba(178,213,229,0.16), transparent 62%)' }}
       />
       <div className="relative mx-auto max-w-3xl">
         <Reveal>

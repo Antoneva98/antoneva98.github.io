@@ -41,9 +41,9 @@ const FRAG = /* glsl */ `
     // soft plume mask, stronger toward the upper-right
     float plume = smoothstep(0.35, 1.15, n + (uv.x * 0.35 + uv.y * 0.45));
 
-    vec3 base   = vec3(0.020, 0.020, 0.027);   // #050507-ish
-    vec3 accent = vec3(0.431, 0.545, 1.000);   // #6E8BFF
-    vec3 soft   = vec3(0.616, 0.690, 1.000);   // #9DB0FF
+    vec3 base   = vec3(0.008, 0.008, 0.008);   // #020202 onyx
+    vec3 accent = vec3(0.698, 0.835, 0.898);   // #B2D5E5 candy blue
+    vec3 soft   = vec3(0.796, 0.894, 0.937);   // #CBE4EF
 
     vec3 col = base;
     col = mix(col, accent, plume * 0.16);

@@ -4,13 +4,13 @@
 @import url('https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap');
 
 @theme {
-  /* Ethereal Glass — OLED base, single cool accent */
-  --color-base: #050507;
-  --color-base-2: #08080c;
-  --color-accent: #6e8bff;
-  --color-accent-soft: #9db0ff;
+  /* Glacier — Onyx base, soft Candy Blue accent */
+  --color-base: #020202;
+  --color-base-2: #0d0d0d;
+  --color-accent: #b2d5e5;
+  --color-accent-soft: #cbe4ef;
   --color-t1: #ffffff;
-  --color-t2: rgba(255, 255, 255, 0.62);
+  --color-t2: rgba(255, 255, 255, 0.66);
   --color-t3: rgba(255, 255, 255, 0.52);
 
   --font-display: 'Clash Display', ui-sans-serif, system-ui, sans-serif;
@@ -67,7 +67,7 @@ body::after {
 
 ::selection {
   background: var(--color-accent);
-  color: #050507;
+  color: #020202;
 }
 
 @media (prefers-reduced-motion: reduce) {

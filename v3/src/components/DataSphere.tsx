@@ -17,8 +17,8 @@ function makeSprite() {
   const g = c.getContext('2d')!
   const grad = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2)
   grad.addColorStop(0, 'rgba(255,255,255,1)')
-  grad.addColorStop(0.25, 'rgba(200,210,255,0.9)')
-  grad.addColorStop(1, 'rgba(157,176,255,0)')
+  grad.addColorStop(0.25, 'rgba(203,228,239,0.9)')
+  grad.addColorStop(1, 'rgba(178,213,229,0)')
   g.fillStyle = grad
   g.fillRect(0, 0, s, s)
   return new THREE.CanvasTexture(c)
@@ -35,8 +35,8 @@ function Points({ wrapRef, reduce }: { wrapRef: RefObject<HTMLDivElement | null>
     const scattered = new Float32Array(COUNT * 3)
     const colors = new Float32Array(COUNT * 3)
     const R = 2.25
-    const accent = new THREE.Color('#9db0ff')
-    const white = new THREE.Color('#dfe6ff')
+    const accent = new THREE.Color('#b2d5e5')
+    const white = new THREE.Color('#eaf4f9')
     for (let i = 0; i < COUNT; i++) {
       const y = 1 - (i / (COUNT - 1)) * 2
       const r = Math.sqrt(1 - y * y)

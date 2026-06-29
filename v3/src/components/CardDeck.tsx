@@ -14,7 +14,7 @@ type Card = {
   render: () => React.ReactNode
 }
 
-const accent = '#9db0ff'
+const accent = '#b2d5e5'
 
 function Decay() {
   return (
@@ -38,7 +38,7 @@ function Bars({ vals }: { vals: number[] }) {
         <span
           key={i}
           className="flex-1 rounded-t"
-          style={{ height: `${v}%`, background: `linear-gradient(${accent}, rgba(157,176,255,0.18))` }}
+          style={{ height: `${v}%`, background: `linear-gradient(${accent}, rgba(178,213,229,0.18))` }}
         />
       ))}
     </div>
@@ -109,7 +109,7 @@ export function CardDeck() {
               tabIndex={isFront ? 0 : -1}
               className="absolute left-0 top-0 w-full overflow-hidden rounded-[24px] border border-white/12 p-8 text-left shadow-[0_40px_90px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.12)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               style={{
-                background: 'linear-gradient(180deg, #1a2230 0%, #0e141d 100%)',
+                background: 'linear-gradient(180deg, #1c1c1c 0%, #0d0d0d 100%)',
                 transformStyle: 'preserve-3d',
                 cursor: isFront ? 'pointer' : 'default',
                 pointerEvents: isFront ? 'auto' : 'none',

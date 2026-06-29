@@ -8,7 +8,7 @@ type Token = { text: string; accent?: boolean }
 // OLED base, so the dim state is accessible; words animate to white / accent.
 const DIM = '#6a6a70'
 const FULL = '#ffffff'
-const ACCENT = '#6e8bff'
+const ACCENT = '#b2d5e5'
 
 export function ScrollHighlightText({ tokens }: { tokens: Token[] }) {
   const reduce = useReducedMotion()
