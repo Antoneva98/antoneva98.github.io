@@ -32,23 +32,29 @@ jobs:
       - run: npm run build
         working-directory: v3
 
-      # Assemble the publish directory so all three portfolios coexist:
-      #   /my_portfolio/      -> portfolio #1 (root index.html)
-      #   /my_portfolio/v2/   -> portfolio #2
-      #   /my_portfolio/v3/   -> portfolio #3 (built Vite app)
+      # Assemble the publish directory. v3 is the live portfolio at the root;
+      # the earlier versions stay reachable as an archive:
+      #   /      -> portfolio #3 (built Vite app, current)
+      #   /v1/   -> portfolio #1 (old root index.html, archived)
+      #   /v2/   -> portfolio #2 (archived)
       - name: Assemble site
         run: |
           mkdir -p _site
-          # Copy repo root (old portfolio + v2), excluding build/tooling dirs.
+          # Current portfolio (v3) at the root.
+          cp -r v3/dist/. _site/
+          # Archive the old root portfolio under /v1/.
+          mkdir -p _site/v1
           rsync -a \
             --exclude '.git' \
             --exclude '.github' \
+            --exclude '.gitignore' \
+            --exclude 'v2' \
             --exclude 'v3' \
             --exclude '_site' \
-            ./ _site/
-          # Place the built v3 app under /v3/.
-          mkdir -p _site/v3
-          cp -r v3/dist/. _site/v3/
+            ./ _site/v1/
+          # Archive v2 under /v2/.
+          mkdir -p _site/v2
+          cp -r v2/. _site/v2/
 
       - uses: actions/upload-pages-artifact@v3
         with:

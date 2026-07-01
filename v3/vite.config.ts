@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// Served under the user page: antoneva98.github.io/v3/
+// Served at the root of the user site: antoneva98.github.io/
 export default defineConfig({
-  base: '/v3/',
+  base: '/',
   plugins: [react(), tailwindcss()],
 })
