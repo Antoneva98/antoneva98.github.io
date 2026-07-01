@@ -7,7 +7,7 @@ import { Bezel } from './components/Bezel'
 import { CardDeck } from './components/CardDeck'
 import { Marker } from './components/Marker'
 import { ScrollHighlightText } from './components/ScrollHighlightText'
-import { PROFILE, SKILLS, PROJECTS, RECOMMENDATIONS, type Project } from './data'
+import { PROFILE, SKILLS, PROJECTS, type Project } from './data'
 
 // Three.js is the heaviest dependency; load the WebGL pieces in a separate chunk
 // so the page text renders immediately and the 3D visuals stream in after.
@@ -580,53 +580,6 @@ function ProjectPanel({ p }: { p: Project }) {
   )
 }
 
-function initials(name: string) {
-  return name
-    .split(' ')
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-}
-
-function Recommendations() {
-  return (
-    <Panel>
-      <Reveal>
-        <SectionHeading>In other words.</SectionHeading>
-      </Reveal>
-      <div className="mt-10 grid w-full max-w-5xl gap-6 md:grid-cols-2">
-        {RECOMMENDATIONS.map((r, i) => (
-          <Reveal key={i} delay={i * 0.08}>
-            <Bezel className="h-full" coreClassName="relative flex h-full flex-col overflow-hidden p-8">
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -top-6 right-4 font-display text-[7rem] leading-none text-accent/15 select-none"
-              >
-                &rdquo;
-              </span>
-              <span className="relative w-fit rounded-full border border-white/12 bg-white/[0.04] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-t3">
-                Sample
-              </span>
-              <p className="relative mt-6 font-display text-xl leading-snug text-t1">{r.quote}</p>
-              <footer className="relative mt-auto flex items-center gap-3 pt-7">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/15 font-display text-sm font-semibold text-accent-soft">
-                  {initials(r.name)}
-                </span>
-                <span className="leading-tight">
-                  <span className="block text-sm font-medium text-t1">{r.name}</span>
-                  <span className="block text-sm text-t3">{r.role}</span>
-                </span>
-              </footer>
-            </Bezel>
-          </Reveal>
-        ))}
-      </div>
-    </Panel>
-  )
-}
-
-
 function Contact({ goTo }: { goTo: (id: string) => void }) {
   return (
     <Panel id="contact" className="items-center overflow-hidden text-center">
@@ -704,7 +657,6 @@ function App() {
             {shownProjects.map((p) => (
               <ProjectPanel key={p.title} p={p} />
             ))}
-            <Recommendations />
             <Contact goTo={goTo} />
           </div>
         </div>
